@@ -3,8 +3,12 @@ import 'tailwindcss/tailwind.css';
 import Input from '@/components/input';
 import logoImage from '@/public/images/logo.png'
 import { useCallback, useState } from 'react';
+import { signIn } from 'next-auth/react'
+import axios from 'axios';
+import { useRouter, NextRouter } from 'next/router';
 
 const Auth = () => {
+  const router: NextRouter = useRouter();
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
@@ -13,7 +17,36 @@ const Auth = () => {
 
   const toggleVariant = useCallback(() => {
     setVariant((currentVariant) => currentVariant == 'login' ? 'register' : 'login');
-  }, [])
+  }, []);
+
+  const login = useCallback(async () => {
+    try {
+      await signIn('credentials', {
+        email,
+        password,
+        redirect: false,
+        callbackUrl: ''
+      });
+      router.push('/');
+    } catch (error) {
+      console.log(error);
+    }
+  }, [email, password, router])
+
+  const register = useCallback(async () => {
+    try {
+      await axios.post('/api/register', {
+        email,
+        name,
+        password
+      });
+      login();
+    } catch (error) {
+      console.log(error);
+    }
+  },[email, name, password, login]);
+
+
 
   return (
     <div
@@ -52,7 +85,7 @@ const Auth = () => {
                 type='password'
                 value={password}
               />
-              <button className='bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 '>
+              <button onClick={variant == 'login' ? login : register } className='bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 '>
                 {variant == 'login' ? 'Login' : 'Sign up'}
               </button>
               <p className='text-neutral-500 mt-12'>
