@@ -12,7 +12,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <h1 className='text-2xl text-red-500'>My first Next JS project</h1>
+        <h1 className='text-2xl text-red-500'>Ongoing Next JS project</h1>
       </main>
     </>
   )
