@@ -1,8 +1,30 @@
-import 'tailwindcss/tailwind.css'; 
-
+// import 'tailwindcss/tailwind.css'; 
 import Head from 'next/head'
 
+import { getSession, signOut } from 'next-auth/react'
+import { NextPageContext } from 'next'
+import useCurrentUser from '@/hooks/useCurrentUser';
+
+export async function getServerSideProps(context: NextPageContext) {
+  const session = await getSession(context);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/auth',
+        permanent: false
+      }
+    }
+  }
+
+  return {
+    props: {}
+  }
+}
+
 export default function Home() {
+  const { data: user } = useCurrentUser();
+
   return (
     <>
       <Head>
@@ -13,6 +35,8 @@ export default function Home() {
       </Head>
       <main>
         <h1 className='text-2xl text-red-500'>Ongoing Next JS project</h1>
+        <p className='text-white'>Logged in as : {user?.name}</p>
+        <button className='h-10 w-20 mt-2 bg-white' onClick={() => signOut()}>Logout</button>
       </main>
     </>
   )
