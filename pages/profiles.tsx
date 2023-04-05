@@ -46,7 +46,7 @@ const Profiles = () => {
                                     overflow-hidden
                                 "
                             >
-                                <Image width={124} height={124} src="/images/default-blue.png" alt="Profile"  />
+                                <Image width={100} height={100} src="/images/default-blue.png" alt="Profile"  />
                             </div>
                             <div
                                 className="
