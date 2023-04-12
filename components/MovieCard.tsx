@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 
 import { BsFillPlayFill } from "react-icons/bs";
+import FavoriteButton from "./FavoriteButton";
 
 interface MovieCardProps {
   data: Record<string, any>;
@@ -95,7 +96,9 @@ const MovieCard: React.FC<MovieCardProps> = ({ data }) => {
                 onClick={() => {}}>
                     <BsFillPlayFill size={30}/>
                 </div>
+                <FavoriteButton movieId={data?.id}/>
             </div>
+
             <p className="text-green-400 font-semibold mt-4">
                 New <span className="text-white">2023</span>
             </p>
